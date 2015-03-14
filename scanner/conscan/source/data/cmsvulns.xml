@@ -1,13 +1,6 @@
 <?xml version="1.0"?>
 <data>
-	
 	<concrete version="5.6.2.1">
-		<vulnerability>
-			<title>Un-Authenticated SQL Injection</title>
-			<references>
-				<url>http://www.exploit-db.com/exploits/31735/</url>
-			</references>
-		</vulnerability>
 		<vulnerability>
 			<title>Multiple XSS</title>
 			<references>

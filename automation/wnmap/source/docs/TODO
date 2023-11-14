@@ -1,0 +1,18 @@
+changelog and todo list for wnmap
+==================================
+
+===> 0.X
+    * -O: output mode - !( xml/nmap export || dir creation ) ......... []
+    * html/text report ............................................... []
+
+===> 0.3
+    * -C [user mode args] - choose chain to run (chain script) ....... [] 
+    * Normal Nmap Behavior + xml/nmap export ........................, []
+    * dynamically wnmap_args taken (no :1:1) ......................... [] 
+
+===> 0.2
+    * cp .conf files to personal dir ................................. []
+    * install.sh ..................................................... []
+
+===> 0.1
+    * initial release ................................................ [DONE]

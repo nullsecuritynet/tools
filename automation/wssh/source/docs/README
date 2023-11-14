@@ -1,0 +1,51 @@
+OPTS
+====
+
+$ ./wssh.sh
+--==[ wssh by nrz@nullsecurity.net ]==--
+Usage: wssh [mode|<opt>] [<overwrite>]
+OPTIONS:
+    -m <mode>: mode/id to machine
+    -e: edit conf file [/home/user/.wssh/wssh.conf]
+    -l: list modes
+    -S <file_upload/dir_upload>: scp to machine
+    -s <file_download/dir_download: scp from machine
+    -d <remote_dst>: change file where upload or download file [default:~/]
+OVERWRITE:
+    -u <user>: switch user
+    -h <host>: switch host
+    -p <port>: switch port
+    -c: disable check host fingerprint [default:true]
+    -x <cmd>: extra commands
+MISC:
+    -V: print version of wssh and exit
+    -H: print this help and exit
+EXAMPLE:
+    wssh -m b0x -x'-D1234' # socks proxy mode
+    wssh -m b0x -S file -d '/data/' # upload file to /data
+    wssh -m b0x -s file # download file from home
+    wssh -m b0x -p 1337 -S file # use diff port for b0x config uploading file to home
+    wssh b0x # no shitty args anymore - just fucking show me the shell :)
+
+
+CONFIGURATION FILE
+==================
+
+$ cat ~/.wssh/wssh.conf
+
+# id;ip;port[def:22];user;check_host_fingerprint;extra_opt
+vulndev;192.168.1.40;;root;false;-Y
+android;192.168.1.8;;nrz;false;-Y
+debian64;localhost;2222;root;false;
+vpn_www;192.168.1.56;3224;nrz;false;false;-L 8080:localhost:80
+
+
+EXAMPLE
+=======
+
+ $ wssh vpn
+--==[ wssh by nrz@nullsecurity.net ]==--
+[+] ssh(192.168.1.56:3224) -L 8080:localhost:80
+vpn_www ~ $
+
+#eof

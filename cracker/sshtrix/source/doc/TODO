@@ -1,0 +1,40 @@
+changelog and todo list for sshtrix
+===================================
+
+
+===> 1.0
+    * ipv6 support .......................................................... []
+    * proxy support ......................................................... []
+
+===> 0.0.3
+
+    * option for saving and restoring a session ............................. []
+    * signal handling ....................................................... []
+    * support for parallel host cracking .................................... []
+    * option to define more passwords/usernames on command line ............. []
+    * option to test empty passwords or as username ......................... []
+    * optimize alloc_logins() (thx pyro) .................................... []
+    * upgrade error.c ....................................................... []
+    * increased comments in code ............................................ []
+    * increades verbosity ................................................... []
+    * clean up and refactor some parts of code .............................. []
+
+===> 0.0.2
+
+    * ship sshtrix-0.0.2 to linux and *BSD distributors ................. [DONE]
+    * default sshtrix (intern) username/password list ................... [DONE]
+    * option for choosing network range / network mask .................. [DONE]
+    * option to define username on command line ......................... [DONE]
+    * option to define password on command line ......................... [DONE]
+    * option to read hosts from file .................................... [DONE]
+    * support for colon seperated login file e.g: user:pass ............. [DONE]
+    * increased verbosity ............................................... [DONE]
+    * manpage update .................................................... [DONE]
+    * changed report style .............................................. [DONE]
+    * bugfix: wrong output when using verbose mode ...................... [DONE]
+    * bugfix: added missing threading initialization .................... [DONE]
+    * new structure defined for TODO list, due to time pressure ......... [DONE]
+
+===> 0.0.1
+
+    * first release ..................................................... [DONE]

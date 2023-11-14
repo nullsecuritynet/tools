@@ -1,0 +1,27 @@
+mbr_store README
+
+NAME
+   	mbr_store
+
+INSTALLATION
+	make
+	sudo make install
+	make clean
+	
+FIRST STEPS
+	Get yourself a copy of your own MBR with
+		dd if=/dev/sdx of=my_mbr.img count=1
+	or use one of the provided samples in doc/.
+	Read, store and check your results with your favorite hex editor (e.g. ghex2).
+	Be careful to not demage your bootloader!
+	Run fdisk -l or dmesg to determine the correct device ;)
+	
+AUTHOR
+	atzeton <atzeton@lavabit.com>
+	nullsecurity.net
+
+LICENSE
+	GNU GPLv2+
+	
+BUGS
+	If you find any bugs, feel free to drop me a line!

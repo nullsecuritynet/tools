@@ -1,0 +1,15 @@
+.swp
+.swn
+.swo
+.key
+.DS_Store
+.git
+.pyc
+__pycache__
+id_rsa
+id_dsa
+passwd
+shadow
+.bash_history
+.zsh_history
+.zhistory

@@ -1,0 +1,21 @@
+changelog and todo list for trixd00r (public version)
+=====================================================
+
+===> 0.0.3
+    * add shell communication over ICMP (rawsockets) ........................ []
+    * add option for 'sending shell commands to server' ..................... []
+    * refactor and clean up the whole code .................................. []
+
+===> 0.0.2
+    * option for 'sequence of packets' to trigger backdoor .................. []
+    * add delay option ...................................................... []
+    * add timeout option .................................................... []
+    * client: fix udp listen mode (bugfix) .................................. []
+    * client: do not connect after byebye packet (bugfix) ................... []
+    * add option for listen address/host .................................... []
+    * add ICMP support (magic packet) ....................................... []
+    * add full tty/pty support .............................................. []
+
+===> 0.0.1
+
+    * initial release ................................................... [DONE]

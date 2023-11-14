@@ -1,0 +1,128 @@
+.TH sshtrix 1 "October 1, 2011" "version 0.0.1"
+
+.SH NAME
+sshtrix - A very fast multithreaded SSH login cracker
+
+.SH SYNOPSIS
+.B sshtrix
+-h/-I/-R <arg> -m <arg> [options]
+
+.B sshtrix
+-h/-I/-R <arg> -l/-L <arg> -k/-K <arg> [options]
+
+.SH DESCRIPTION
+sshtrix is a very fast multithreaded SSH login cracker. It supports SSHv1 and
+SSHv2 and uses libssh (http://www.libssh.org/). sshtrix was designed to automate
+rapid bruteforce attacks against SSH authentification screens. Unlike other public
+tools, the aim is to keep it simple, stable, fast and modular. With its clean
+code design, it is easy to extend the code to a framework or to fork it against
+protocols of your choice. In fact, sshtrix is a fork of my own generic login
+cracker framework.
+
+.SH OPTIONS
+.TP 10
+.I \-h host
+Specify target's hostname or IP address.
+.TP 10
+.I \-I range
+Specify target ip address range. You must define start ip and stop ip seperated
+by a dash. So, it must look like: 192.168.0.1-192.168.0.254
+.TP 10
+.I \-R file
+Specify the target list filename. It must contain one host per line. Lines can
+contain port numbers seperated with colons. For example: noptrix.net:1337.
+Default port number is 22 of course.
+.TP 10
+.I \-p port
+Specify target's SSH server port; the default is 22.
+.TP 10
+.I \-m file
+Specify a colon seperated login file. Each line must contain username and
+password seperated with ':' (e.g. user:pass).
+.TP 10
+.I \-l file
+Specify the user list filename. List must contain one username per line.
+.TP 10
+.I \-k file
+Specify the pass list filename. List must contain one password per line.
+.TP 10
+.I \-L user
+Specify username on command line rather reading from file.
+.TP 10
+.I \-K pass
+Specify password on command line rather reading from file.
+.TP 10
+.I \-D
+Use sshtrix's default wordlist for usernames and passwords.
+.TP 10
+.I \-O
+Print out sshtrix's default wordlist. Format is: "username password".
+.TP 10
+.I \-c sec 
+Set connect timeout in seconds. The default is 3 seconds.
+.TP 10
+.I \-w sec
+Set delay time in seconds. If this option is specified, sshtrix will wait for
+"N" seconds before trying the next login pair.
+.TP 10
+.I \-t num
+Define the number of threads to use for parallel connections. The default is 4.
+.TP 10
+.I \-f file
+Log found login pairs to file.
+.TP 10
+.I \-e
+Exit after first found login pair.
+.TP 10
+.I \-s
+Print found logins immediately.
+.TP 10
+.I \-v
+Verbose mode. Print each login attempt.
+.TP 10
+.I \-V
+Shows sshtrix's version number.
+.TP 10
+.I \-H
+Shows help and usage for sshtrix.
+
+.SH EXAMPLES
+.PP
+Crack logins at noptrix.net on default port. Use login file with colon
+seperated usernames and passwords (this is the shortest run usage):
+
+.B $ sshtrix
+-h noptrix.net -m logins.lst
+.PP
+Crack logins at noptrix.net on port 1337. Use a users list and define
+password on command line:
+
+.B $ sshtrix
+-h noptrix.net -p 1337 -l users.lst -K noptrixpass123
+.PP
+Crack logins from host list file. Port numbers will be parsed after ':'.
+Use a username and password list.
+
+.B $ sshtrix
+-R host.lst -l user.lst -k pass.lst
+
+.SH NOTES
+If you get false negatives, which is rare, then you should use fewer threads or
+set the connect timeout higher. On the other hand, feel free to to use more
+threads to test the target's limit: obviously, the more threads you use the
+faster it will crack. Beside that, sshtrix is still in testing phase. I will
+improve on its stability soon and add as many options as needed.
+
+.SH BUGS
+If you believe that sshtrix is acting strangely or poorly under whatever
+circumstances, please notify me and tell me how you think it should behave.
+Minor tweaks and gradual improvements to the code will probably fix behavioral
+and stability issues over time and as such continued feedback from the Internet
+community is always welcome!
+
+.SH COPYRIGHT
+See sshtrix/doc/COPYING.
+
+.SH AUTHOR
+This manual page was written by Levent Kayan <noptrix@lamergarten.net>.
+sshtrix was written by Levent Kayan <noptrix@lamergarten.net>.

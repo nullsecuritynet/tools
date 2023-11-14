@@ -1,0 +1,56 @@
+################################################################################
+#                ____                     _ __                                 #
+#     ___  __ __/ / /__ ___ ______ ______(_) /___ __                           #
+#    / _ \/ // / / (_-</ -_) __/ // / __/ / __/ // /                           #
+#   /_//_/\_,_/_/_/___/\__/\__/\_,_/_/ /_/\__/\_, /                            #
+#                                            /___/ team                        #
+#                                                                              #
+# U3-Pwn                                                                       #
+#                                                                              #
+# DATE                                                                         #
+# 10/05/2013                                                                   #
+#                                                                              #
+# DESCRIPTION                                                                  #
+# U3-Pwn is a tool designed to automate injecting executables to Sandisk       #
+# smart usb devices with default U3 software install. This is performed by     # 
+# removing the original iso file from the device and creating a new iso        #
+# with autorun features.                                                       #
+#                                                                              #
+# REQUREMENTS                                                                  #
+# - Metasploit                                                                 #
+# - U3-Tool                                                                    #
+# - Python-2.7                                                                 #
+#                                                                              #
+# AUTHOR                                                                       #
+# Zy0d0x - http://www.nullsecurity.net/                                        #
+#                                                                              #
+################################################################################
+
+
+Ubuntu: 
+
+apt-get install u3-tool
+
+x32
+wget http://downloads.metasploit.com/data/releases/metasploit-latest-linux-installer.run
+
+chmod 755 metasploit-latest-linux-installer.run
+
+./metasploit-latest-linux-installer.run
+
+ln -s /bin/mkisofs /bin/genisoimage
+
+x64
+wget http://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run
+
+chmod 755 metasploit-latest-linux-x64-installer.run
+
+./metasploit-latest-linux-x64-installer.run
+
+ln -s /bin/mkisofs /bin/genisoimage
+
+
+Kali Linux
+
+apt-get update && apt-get -y install genisoimage
+

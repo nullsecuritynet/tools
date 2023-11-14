@@ -1,0 +1,11 @@
+===> 0.0.1
+    * debian 6.0 (2.6.32) - libpcap 0.8
+    * gentoo 3.2.5 - libpcap 1.2.1
+    * gentoo 3.1.5 - libpcap 1.2.0
+    * gentoo 3.0.6 - libpcap 1.1.1
+    * freebsd 8.2 - libpcap 1.0.0
+    * netbsd 5.1 - libpcap 0.9.4
+    * openbsd 4.9 - libpcap 0.x
+    * openbsd 5.0 - libpcap 0.x
+    * SunOS 5.11 - libpcap 1.0.0
+    * Mac OS X 10.7.3 - libpcap 1.1.1

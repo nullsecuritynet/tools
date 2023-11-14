@@ -1,0 +1,5 @@
+[AutoRun] 
+open=wscript.exe hidden.vbs LaunchU3.bat 
+icon=icon.ico
+action=Run U3 Launchpad
+

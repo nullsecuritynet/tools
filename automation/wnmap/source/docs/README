@@ -1,0 +1,57 @@
+WNMAP v0.1
+==========
+
+
+WHAT YOU CAN DO WITH THIS
+=========================
+    - Configure custom scan modes and store them for future audits.
+    - Run all scan modes in chain.
+    - Add Script Nmap NSE modes.
+    - Generate nice directory structure, i.e.:
+        192.168.1.1 $ tree        
+        .
+        |-- all
+        |   |-- 192.168.1.1.nmap
+        |   `-- 192.168.1.1.xml
+        |-- fast
+        |   |-- 192.168.1.1.nmap
+        |   `-- 192.168.1.1.xml
+        |-- os
+        |   |-- 192.168.1.1.nmap
+        |   `-- 192.168.1.1.xml
+        `-- version
+            |-- 192.168.1.1.nmap
+            `-- 192.168.1.1.xml
+        
+
+WHAT YOU CAN NOT DO WITH THIS
+=============================
+    - Scan network ranges (see wscan tool).
+
+
+HOW THE wmodes.conf WORKS
+=========================
+    - First, you can easily edit with 'wnmap -e' command.
+    - The file is organize into lines splitted by ';'
+        - First column: wnmap mode - this will set up the way it will be called from wnmap.
+            - i.e.: -F;fast;-F;false => $ wscan -F target.com
+            - NOTE: '-F' '-T' '-F' <= right ; '-scan' <= wrong
+        - Second column: wnmap name - this will fix the human radeable name - used for 
+            create directories and so on.
+        - Third column: nmap mode - command for nmap to run out.
+        - Fourth column: boolean flag - will tell wnmap if sudo is required for nmap command.
+
+
+TL;DR
+=====
+    - Scan host with {1..N} custom modes.
+    - Create your own modes.
+    - Get all results in a nice way for latest report.
+    
+
+NOTE
+====
+    - Check src/core/wnmap.conf out [!]
+
+
+#EOF

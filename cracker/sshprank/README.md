@@ -20,7 +20,7 @@ usage
 
   sshprank <mode> [opts] | <misc>
 
-modes
+mode options
 
   -h <hosts[:ports]>    - single host or host list to crack. multiple ports
                           can be separated by comma, e.g.: 127.0.0.1:22,222,2022
@@ -46,31 +46,53 @@ modes
                           format: <host>[:ports]. multiple ports can be
                           separated by comma (default port: 22)
 
-options
+scan options
 
   -r <num>              - generate <num> random ipv4 addresses, check for open
                           sshd port and crack for login (only with -m option!)
+
+credential options
+
   -u <user|file>        - single username or user list (default: root)
   -p <pass|file>        - single password or password list (default: root)
   -c <file>             - list of user:pass combination
+
+brute options
+
+  -e                    - exclude host after first login was found. continue
+                          with other hosts instead
+  -E                    - exit sshprank completely after first login was found
+  -z                    - shuffle target list randomly before cracking
+                          (only with -h <file>). saves to 'random_targets.txt'
+  -Z <num>              - random brute: pick random target + creds each attempt.
+                          <num> total attempts, 0 = infinite (use with -h, -u/-p)
+
+exec options
+
   -C <cmd|file>         - read commands from file (line by line) or execute a
                           single command on host if login was cracked
   -N                    - do not output ssh command results
+
+thread options
+
   -x <num>              - num threads for parallel host crack (default: 50)
   -S <num>              - num threads for parallel service crack (default: 20)
   -X <num>              - num threads for parallel login crack (default: 5)
   -B <num>              - num threads for parallel banner grabbing (default: 70)
+
+timeout options
+
   -T <sec>              - num sec for auth and connect timeout (default: 5s)
   -R <sec>              - num sec for (banner) read timeout (default: 3s)
+
+output options
+
   -o <file>             - write found logins to file. format:
                           <host>:<port>:<user>:<pass> (default: owned.txt)
-  -e                    - exclude host after first login was found. continue
-                          with other hosts instead
-  -E                    - exit sshprank completely after first login was found
   -v                    - verbose mode. show found logins, sshds, etc.
                           (default: off)
 
-misc
+misc options
 
   -H                    - print help
   -V                    - print version information
@@ -78,7 +100,7 @@ misc
 examples
 
   # crack targets from a given list with user admin, pw-list and 20 host-threads
-  $ sshprank -h sshds.txt -u admin -P /tmp/passlist.txt -x 20
+  $ sshprank -h sshds.txt -u admin -p /tmp/passlist.txt -x 20
 
   # first scan then crack from founds ssh services using 'root:admin'
   $ sudo sshprank -m '-p22,2022 --rate 5000 --source-ip 192.168.13.37 \
@@ -94,6 +116,15 @@ examples
 
   # grab banners and output to file with format supported for '-h' option
   $ sshprank -b hosts.txt > sshds2.txt
+
+  # shuffle target list and crack
+  $ sshprank -h sshds.txt -z -u root -p /tmp/passes.txt
+
+  # random brute: 500 random attempts from ip/user/pass lists
+  $ sshprank -h sshds.txt -u /tmp/users.txt -p /tmp/passes.txt -Z 500
+
+  # random brute infinite (ctrl+c to stop)
+  $ sshprank -h sshds.txt -u /tmp/users.txt -p /tmp/passes.txt -Z 0
 ```
 
 # Author
@@ -103,9 +134,12 @@ noptrix
 # Notes
 
 - quick'n'dirty code
-- sshprank is already packaged and available for [BlackArch Linux](https://www.blackarch.org/)
-- My master-branches are always stable; dev-branches are created for current work.
-- All of my public stuff you find are officially announced and published via [nullsecurity.net](https://www.nullsecurity.net).
+- sshprank is already packaged and available for [BlackArch
+  Linux](https://www.blackarch.org/)
+- My master-branches are always stable; dev-branches are created for current
+  work.
+- All of my public stuff you find are officially announced and published via
+  [nullsecurity.net](https://www.nullsecurity.net).
 
 # License
 

@@ -1,7 +1,7 @@
 # Description
 
-A fast SSH mass-scanner, login cracker and banner grabber tool using the
-python-masscan and shodan module.
+A fast SSH mass-scanner, login cracker, banner grabber and password auth
+checker tool using the python-masscan and shodan module.
 
 # Usage
 
@@ -46,6 +46,10 @@ mode options
                           format: <host>[:ports]. multiple ports can be
                           separated by comma (default port: 22)
 
+  -p <hosts[:ports]>    - check sshd(s) for password auth support.
+                          single host or host list file. format same
+                          as '-h' option. (default port: 22)
+
 scan options
 
   -r <num>              - generate <num> random ipv4 addresses, check for open
@@ -53,8 +57,8 @@ scan options
 
 credential options
 
-  -u <user|file>        - single username or user list (default: root)
-  -p <pass|file>        - single password or password list (default: root)
+  -U <user|file>        - single username or user list (default: root)
+  -P <pass|file>        - single password or password list (default: root)
   -c <file>             - list of user:pass combination
 
 brute options
@@ -65,7 +69,7 @@ brute options
   -z                    - shuffle target list randomly before cracking
                           (only with -h <file>). saves to 'random_targets.txt'
   -Z <num>              - random brute: pick random target + creds each attempt.
-                          <num> total attempts, 0 = infinite (use with -h, -u/-p)
+                          <num> total attempts, 0 = infinite (use with -h, -U/-P)
 
 exec options
 
@@ -94,17 +98,19 @@ output options
 
 misc options
 
+  -i <str>              - spoof ssh client version string sent to sshd
+                          (default: paramiko's default version string)
   -H                    - print help
   -V                    - print version information
 
 examples
 
   # crack targets from a given list with user admin, pw-list and 20 host-threads
-  $ sshprank -h sshds.txt -u admin -p /tmp/passlist.txt -x 20
+  $ sshprank -h sshds.txt -U admin -P /tmp/passlist.txt -x 20
 
   # first scan then crack from founds ssh services using 'root:admin'
   $ sudo sshprank -m '-p22,2022 --rate 5000 --source-ip 192.168.13.37 \
-    --range 192.168.13.1/24' -p admin
+    --range 192.168.13.1/24' -P admin
 
   # generate 1k random ipv4 addresses, then port-scan (tcp/22 here) with 1k p/s
   # and crack logins using 'root:root' on found sshds
@@ -117,14 +123,23 @@ examples
   # grab banners and output to file with format supported for '-h' option
   $ sshprank -b hosts.txt > sshds2.txt
 
+  # check if sshds support password auth
+  $ sshprank -p sshds.txt -v
+
   # shuffle target list and crack
-  $ sshprank -h sshds.txt -z -u root -p /tmp/passes.txt
+  $ sshprank -h sshds.txt -z -U root -P /tmp/passes.txt
 
   # random brute: 500 random attempts from ip/user/pass lists
-  $ sshprank -h sshds.txt -u /tmp/users.txt -p /tmp/passes.txt -Z 500
+  $ sshprank -h sshds.txt -U /tmp/users.txt -P /tmp/passes.txt -Z 500
 
   # random brute infinite (ctrl+c to stop)
-  $ sshprank -h sshds.txt -u /tmp/users.txt -p /tmp/passes.txt -Z 0
+  $ sshprank -h sshds.txt -U /tmp/users.txt -P /tmp/passes.txt -Z 0
+
+  # spoof ssh client version and crack
+  $ sshprank -h sshds.txt -i 'SSH-2.0-OpenSSH_8.9p1'
+
+  # check pwauth with spoofed version
+  $ sshprank -p sshds.txt -i 'SSH-2.0-OpenSSH_7.4' -v
 ```
 
 # Author

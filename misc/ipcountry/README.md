@@ -1,6 +1,6 @@
 # Description
 
-Python tool to fetch IPv4 ranges of given country in host and cidr format.
+Python tool to fetch IP ranges of given country in host and cidr format.
 
 # Usage
 
@@ -21,14 +21,33 @@ usage
 
 options
 
-  -c <country>  - full country name
-  -t <type>     - ipv4 range type to fetch (default: 'host,cidr')
+  -c <code>   - country code, e.g.: am,gr,...
+  -t <type>   - ip range type to fetch (default: 'host,cidr')
+  -i          - get ipv6 ranges
+  -r          - remove downloaded tar.gz and extracted zones dir after processing
 
 misc
 
-  -l            - list all countries by name
-  -V            - print version information
-  -H            - print this help
+  -l          - list all country codes and their full name
+  -V          - print version information
+  -H          - print this help
+
+examples
+
+  # fetch ipv4 cidr and host ranges for germany
+  $ ipcountry -c am
+
+  # fetch only cidr ranges for russia
+  $ ipcountry -c gr -t cidr
+
+  # fetch only host ranges for multiple countries
+  $ ipcountry -c am,gr,cy -t host
+
+  # fetch ipv6 ranges and remove tar.gz + zones dir afterwards
+  $ ipcountry -c am -i -r
+
+  # list all available country codes
+  $ ipcountry -l
 ```
 
 # Author

@@ -73,6 +73,32 @@ misc options
 
   -H                - print help
   -V                - print version information
+
+examples
+
+  # grep for 'apache' in headers and body of a single host
+  $ httpgrep -h foobar.net -s apache
+
+  # scan a CIDR range on port 8080, search for 'tomcat' in body only
+  $ httpgrep -h 192.168.0.0/24 -p 8080 -s tomcat -S body
+
+  # scan host list, search string file, log matches, 200 threads
+  $ httpgrep -h /tmp/hosts.txt -s /tmp/strings.txt -x 200 -l /tmp/out.txt
+
+  # grep for 'admin' case-insensitively across multiple URIs via TLS
+  $ httpgrep -h foobar.net -t -u /admin,/login,/dashboard -s admin -i
+
+  # scan IP range, reverse DNS, only report 200 responses
+  $ httpgrep -h 10.0.0.1-10.0.0.254 -s 'powered by' -r -f 200
+
+  # search headers only, don't follow redirects, verbose output
+  $ httpgrep -h foobar.net -s 'X-Powered-By' -S headers -F -v
+
+  # route through burp, custom UA, search for version strings
+  $ httpgrep -h /tmp/hosts.txt -s 'nginx/1\.' -P http://127.0.0.1:8080 -U 'curl/8.0'
+
+  # scan with http basic auth, 30s timeout, random user-agent
+  $ httpgrep -h foobar.net -s secret -a admin:password -c 30 -A
 ```
 
 # Author

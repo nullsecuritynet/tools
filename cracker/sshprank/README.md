@@ -22,8 +22,10 @@ usage
 
 mode options
 
-  -h <hosts[:ports]>    - single host or host list to crack. multiple ports
-                          can be separated by comma, e.g.: 127.0.0.1:22,222,2022
+  -h <hosts[:ports]>    - single host, cidr, ip range or host list file to
+                          crack. multiple ports can be separated by comma,
+                          e.g.: 127.0.0.1:22,222,2022 or 192.168.1.0/24:22
+                          or 192.168.1.10-192.168.1.50:22 or 10.0.0.1-50
                           (default port: 22)
 
   -m <opts> [-r <num>]  - pass arbitrary masscan opts, portscan given hosts and
@@ -42,13 +44,13 @@ mode options
                           (= 1 page) ssh servers. so if you use this one use
                           '1' for 'page'.
 
-  -b <file>             - list of hosts to grab sshd banner from
-                          format: <host>[:ports]. multiple ports can be
-                          separated by comma (default port: 22)
+  -b <hosts[:ports]>    - grab sshd banner from given target(s)
+                          (default port: 22)
+                          format: same as '-h' option
 
-  -p <hosts[:ports]>    - check sshd(s) for password auth support.
-                          single host or host list file. format same
-                          as '-h' option. (default port: 22)
+  -p <hosts[:ports]>    - check sshd(s) for password auth support
+                          (default port: 22)
+                          format: same as '-h' option
 
 scan options
 
@@ -100,6 +102,11 @@ misc options
 
   -i <str>              - spoof ssh client version string sent to sshd
                           (default: paramiko's default version string)
+  -w <file>             - session file: if it exists, restore progress from
+                          it (skip already-tried creds). on ctrl+c / -E,
+                          state is auto-saved to ./sshprank_session.json
+                          (or to <file> if -w was given). pass it back via
+                          -w to resume.
   -H                    - print help
   -V                    - print version information
 
@@ -140,6 +147,9 @@ examples
 
   # check pwauth with spoofed version
   $ sshprank -p sshds.txt -i 'SSH-2.0-OpenSSH_7.4' -v
+
+  # session file: ctrl+c, then run again to resume
+  $ sshprank -h sshds.txt -U /tmp/users.txt -P /tmp/passes.txt -w sess.json
 ```
 
 # Author

@@ -77,23 +77,25 @@ http options
   -E                - verify TLS/SSL certificates (default: no verification)
   -P <proxy>        - use proxy (format: '[http|https|socks4|socks5]://host:port')
                       (socks needs the 'httpx[socks]' / socksio package)
+  -f <codes>        - only report responses with given HTTP status codes,
+                      e.g.: '200', '200,301,302'
+  -e <codes>        - exclude responses with given HTTP status codes,
+                      e.g.: '404', '403,404,500'
 
 search options
 
   -s <str|file>     - a single string/regex or multile strings/regex in a file
                       to find in given URIs and HTTP response headers,
                       e.g.: 'tomcat 8', '/tmp/igot0daysforthese.txt'
-  -S <str|file>     - invert (grep -v): drop a match if the searched content
-                      also matches this string/regex (or file), e.g. to filter
-                      out dynamic error / not-found pages
+  -S <str|file>     - invert (grep -v): drop ALL matches of a response if this
+                      string/regex (or file) appears anywhere in its body or
+                      headers, e.g. to filter out dynamic error / 404 pages
   -w <where>        - search strings in given places (default: headers,body)
   -b <bytes>        - num bytes of context to show from a body match
                       (default: 64). NOTE: only the first 256 KB of a body
                       is read and searched (for speed)
   -i                - use case-insensitive search
   -I                - use case-insensitive invert (for -S)
-  -1                - stop scanning a host after its first match (skips its
-                      remaining uris, ports and search strings)
 
 scan options
 
@@ -103,8 +105,8 @@ scan options
                       body read time (default: 3.0)
   -G <seconds>      - global timeout: hard-stop the whole scan after N seconds
                       (safety net against any hang; default: none)
-  -f <codes>        - only report responses with given HTTP status codes,
-                      e.g.: '200', '200,301,302'
+  -1                - stop scanning a host after its first match (skips its
+                      remaining uris, ports and search strings)
   -z                - scan targets in random order (for cidr-/host-range or
                       target file; loads all targets into memory first)
   -W                - save/resume: on ctrl+c write progress to httpgrep.session;

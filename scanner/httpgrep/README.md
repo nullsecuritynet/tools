@@ -83,11 +83,15 @@ search options
   -s <str|file>     - a single string/regex or multile strings/regex in a file
                       to find in given URIs and HTTP response headers,
                       e.g.: 'tomcat 8', '/tmp/igot0daysforthese.txt'
-  -S <where>        - search strings in given places (default: headers,body)
+  -S <str|file>     - invert (grep -v): drop a match if the searched content
+                      also matches this string/regex (or file), e.g. to filter
+                      out dynamic error / not-found pages
+  -w <where>        - search strings in given places (default: headers,body)
   -b <bytes>        - num bytes of context to show from a body match
                       (default: 64). NOTE: only the first 256 KB of a body
                       is read and searched (for speed)
   -i                - use case-insensitive search
+  -I                - use case-insensitive invert (for -S)
   -1                - stop scanning a host after its first match (skips its
                       remaining uris, ports and search strings)
 
@@ -129,7 +133,7 @@ examples
   $ httpgrep -h foobar.net -s apache
 
   # scan a CIDR range on port 8080, search for 'tomcat' in body only
-  $ httpgrep -h 192.168.0.0/24 -p 8080 -s tomcat -S body
+  $ httpgrep -h 192.168.0.0/24 -p 8080 -s tomcat -w body
 
   # scan a host across multiple ports and a port range for 'jenkins'
   $ httpgrep -h 192.168.0.10 -p 80,443,8080,8000-8100 -s jenkins -i
@@ -144,7 +148,10 @@ examples
   $ httpgrep -h 10.0.0.1-10.0.0.254 -s 'powered by' -r -f 200
 
   # search headers only, don't follow redirects, verbose output
-  $ httpgrep -h foobar.net -s 'X-Powered-By' -S headers -F -v
+  $ httpgrep -h foobar.net -s 'X-Powered-By' -w headers -F -v
+
+  # grep for 'admin', but drop dynamic error pages (invert, case-insensitive)
+  $ httpgrep -h 192.168.0.0/24 -s admin -i -S 'error|not found' -I
 
   # route through proxy, custom UA, search for version strings
   $ httpgrep -h /tmp/hosts.txt -s 'nginx/1\.' -P http://127.0.0.1:8080 -U 'curl/8.0'

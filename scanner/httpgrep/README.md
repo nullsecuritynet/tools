@@ -105,15 +105,17 @@ scan options
                       body read time (default: 3.0)
   -G <seconds>      - global timeout: hard-stop the whole scan after N seconds
                       (safety net against any hang; default: none)
-  -1                - stop scanning a host after its first match (skips its
-                      remaining uris, ports and search strings)
+  -1                - once a host has a match, skip its not-yet-started probes
+                      (best-effort; in-flight requests still finish, so under
+                      high -x you may still see a few matches per host)
   -z                - scan targets in random order (for cidr-/host-range or
                       target file; loads all targets into memory first)
   -W                - save/resume: on ctrl+c write progress to httpgrep.session;
                       rerun with -W to resume from it (else start fresh)
-  -T                - pull (v)hosts from the TLS cert (CN + SAN) and scan them
-                      too: against the same target via host header AND the
-                      hostname directly. needs TLS (-t or a *443 port).
+  -T <0|1>          - pull (v)hosts from the TLS cert (CN + SAN) and scan them.
+                      0 = in-scope only (via host header on the scanned IP);
+                      1 = also scan each vhost by name (dns-resolved, MAY LEAVE
+                      the scanned scope). needs TLS (-t or a *443 port).
 
 output options
 

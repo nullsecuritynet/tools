@@ -92,8 +92,9 @@ search options
                       headers, e.g. to filter out dynamic error / 404 pages
   -w <where>        - search strings in given places (default: headers,body)
   -b <bytes>        - num bytes of context to show from a body match
-                      (default: 64). NOTE: only the first 256 KB of a body
-                      is read and searched (for speed)
+                      (default: 64)
+  -m <size>         - max body to read + search; suffix b/kb/mb, no suffix = kb,
+                      e.g.: 512, 1mb, 262144b (default: 256kb)
   -i                - use case-insensitive search
   -I                - use case-insensitive invert (for -S)
 
@@ -108,8 +109,9 @@ scan options
   -1                - once a host has a match, skip its not-yet-started probes
                       (best-effort; in-flight requests still finish, so under
                       high -x you may still see a few matches per host)
-  -z                - scan targets in random order (for cidr-/host-range or
-                      target file; loads all targets into memory first)
+  -z <size>         - scan targets in random order within a memory-bounded
+                      window of <size> ram (suffix b/kb/mb/gb), e.g.: -z 1gb.
+                      keeps huge ranges/files from exhausting memory
   -W                - save/resume: on ctrl+c write progress to httpgrep.session;
                       rerun with -W to resume from it (else start fresh)
   -T <0|1>          - pull (v)hosts from the TLS cert (CN + SAN) and scan them.
@@ -159,12 +161,6 @@ examples
 
   # route through proxy, custom UA, search for version strings
   $ httpgrep -h /tmp/hosts.txt -s 'nginx/1\.' -P http://127.0.0.1:8080 -U 'curl/8.0'
-
-  # scan with http basic auth, 30s timeout, random user-agent
-  $ httpgrep -h foobar.net -s secret -a admin:password -c 30 -A
-
-  # only scan hosts with a valid TLS cert, log jsonl (-> found.jsonl)
-  $ httpgrep -h /tmp/hosts.txt -t -s login -E -l found -O jsonl
 
   # big resumable scan: ctrl+c saves state, rerun with -W to continue; also
   # cap the whole run at 1 hour as a hang safety net

@@ -60,12 +60,12 @@ target options
   -u <URI|file>     - URI or comma-separated URIs or file with URIs (one per
                       line) to search given strings in, e.g.: /foobar/,
                       /foo.html, /admin,/login, /tmp/paths.txt (default: /)
-  -r                - perform reverse dns lookup for given IPv4 addresses
-                      (resolved concurrently before scanning)
+  -r                - show the reverse-dns (PTR) name of scanned IPv4s as a
+                      label; the ip stays the scan target (no scope drift)
 
 http options
 
-  -X <method>       - specify HTTP request method to use (default: get).
+  -X <method>       - HTTP request method to use, any case (default: get).
                       use '?' to list available methods.
   -a <user:pass>    - http auth credentials (format: 'user:pass')
   -U <UA>           - set custom User-Agent (default: latest ms edge, windows)
@@ -102,8 +102,9 @@ scan options
 
   -x <num>          - max concurrent connections (async; default: 1000). raise
                       ulimit -n accordingly for very high values
-  -c <seconds>      - per-host connect + read timeout in seconds, also caps
-                      body read time (default: 3.0)
+  -c <seconds>      - per-host read timeout in seconds, also caps body read
+                      time. the tcp preflight is capped at 2s regardless, so
+                      filtered/dead hosts free their slot fast (default: 3.0)
   -G <seconds>      - global timeout: hard-stop the whole scan after N seconds
                       (safety net against any hang; default: none)
   -1                - once a host has a match, skip its not-yet-started probes
@@ -112,6 +113,9 @@ scan options
   -z <size>         - scan targets in random order within a memory-bounded
                       window of <size> ram (suffix b/kb/mb/gb), e.g.: -z 1gb.
                       keeps huge ranges/files from exhausting memory
+  -Z <num>          - cap the -z window at <num> targets (default 2000000,
+                      ~267mb at ~140 bytes each). more = wider mixing on huge
+                      ranges, at the cost of ram and start-up buffering
   -W                - save/resume: on ctrl+c write progress to httpgrep.session;
                       rerun with -W to resume from it (else start fresh)
   -T <0|1>          - pull (v)hosts from the TLS cert (CN + SAN) and scan them.
@@ -176,8 +180,8 @@ Matches are printed live, one per line:
 ```
 
 - `<url>`   - the scanned URL (`scheme://host:port/uri`).
-- `<vhost>` - only present with `-T`: the cert (v)host tried via the `Host`
-              header (empty for direct scans).
+- `<vhost>` - present with `-T` (the cert (v)host tried via the `Host` header)
+              or `-r` (the PTR name of the scanned ip); empty for direct scans.
 - `<type>`  - `body` or `header`.
 - `<match>` - body hit: a short repr'd window from the match (`-b` bytes);
               header hit: `name: value`.

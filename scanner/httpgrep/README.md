@@ -131,6 +131,8 @@ output options
                       (default: txt; use '?' to list). terminal output always
                       stays human-readable.
   -v                - verbose: print each url as it gets scanned
+  -7                - escape non-ASCII in terminal output to \xNN, so a hostile
+                      response body can't corrupt your terminal (logs stay raw)
 
 misc options
 

@@ -81,6 +81,8 @@ http options
                       e.g.: '200', '200,301,302'
   -e <codes>        - exclude responses with given HTTP status codes,
                       e.g.: '404', '403,404,500'
+  -2                - try HTTP/2 (ALPN-negotiated on TLS, falls back to 1.1;
+                      plain http stays 1.1). needs the 'h2' package
 
 search options
 
@@ -107,6 +109,8 @@ scan options
                       filtered/dead hosts free their slot fast (default: 3.0)
   -G <seconds>      - global timeout: hard-stop the whole scan after N seconds
                       (safety net against any hang; default: none)
+  -y <num>          - retry a failed probe up to <num> times (default: 0).
+                      helps with flaky hosts at scale; keep it small
   -1                - once a host has a match, skip its not-yet-started probes
                       (best-effort; in-flight requests still finish, so under
                       high -x you may still see a few matches per host)
@@ -178,20 +182,21 @@ examples
 Matches are printed live, one per line:
 
 ```
-[*] <url> | [vhost] | <type> | <match>
+[*] <url> | [vhost] | <status> | <type> | <match>
 ```
 
-- `<url>`   - the scanned URL (`scheme://host:port/uri`).
-- `<vhost>` - present with `-T` (the cert (v)host tried via the `Host` header)
-              or `-r` (the PTR name of the scanned ip); empty for direct scans.
-- `<type>`  - `body` or `header`.
-- `<match>` - body hit: a short repr'd window from the match (`-b` bytes);
-              header hit: `name: value`.
+- `<url>`    - the scanned URL (`scheme://host:port/uri`).
+- `<vhost>`  - present with `-T` (the cert (v)host tried via the `Host` header)
+               or `-r` (the PTR name of the scanned ip); empty for direct scans.
+- `<status>` - the HTTP response status code (after redirects).
+- `<type>`   - `body` or `header`.
+- `<match>`  - body hit: a short repr'd window from the match (`-b` bytes);
+               header hit: `name: value`.
 
 The terminal always shows this human-readable form. With `-l <base>` the same
 matches are mirrored to `<base>.<fmt>` for each `-O` format - `txt` (these
-lines), `csv` (`url,vhost,type,match` rows with a header), `jsonl` (one JSON
-object per match).
+lines), `csv` (`url,vhost,status,type,match` rows with a header), `jsonl` (one
+JSON object per match).
 
 # Author
 

@@ -102,7 +102,7 @@ search options
 
 scan options
 
-  -x <num>          - max concurrent connections (async; default: 1000). raise
+  -x <num>          - max concurrent connections (async; default: 300). raise
                       ulimit -n accordingly for very high values
   -c <seconds>      - per-host read timeout in seconds, also caps body read
                       time. the tcp preflight is capped at 2s regardless, so

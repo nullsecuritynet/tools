@@ -1,6 +1,7 @@
 # Description
 
-Python tool to fetch IP ranges of given country in host and cidr format.
+Python tool to fetch IP ranges of a given country in host, cidr or jsonl format,
+and to reverse lookup which country an ip belongs to.
 
 # Usage
 
@@ -17,12 +18,18 @@ $ ipcountry -H
 
 usage
 
-  ipcountry -c <arg> [options] | <misc>
+  ipcountry <mode> [options] | <misc>
+
+mode
+
+  -c <code>   - fetch ip ranges for country code(s), e.g.: am,gr,... ('all' = every one)
+  -x <ip>     - reverse lookup ip(s) -> country code ('-' reads ips from stdin)
 
 options
 
-  -c <code>   - country code, e.g.: am,gr,...
   -t <type>   - ip range type to fetch (default: 'host,cidr')
+  -o <file>   - write ranges to <file> ('-' for stdout) instead of per-country files
+  -j          - write ranges as jsonl (one {country,type,range} object per line)
   -i          - get ipv6 ranges
   -r          - remove downloaded tar.gz and extracted zones dir after processing
 
@@ -34,20 +41,17 @@ misc
 
 examples
 
-  # fetch ipv4 cidr and host ranges for germany
-  $ ipcountry -c am
+  # fetch cidr + host ranges for multiple countries
+  $ ipcountry -c am,gr,cy
 
-  # fetch only cidr ranges for russia
-  $ ipcountry -c gr -t cidr
+  # fetch ranges for all countries at once
+  $ ipcountry -c all
 
-  # fetch only host ranges for multiple countries
-  $ ipcountry -c am,gr,cy -t host
+  # stream ranges to stdout for piping ('-' = stdout)
+  $ ipcountry -c ru -t cidr -o -
 
-  # fetch ipv6 ranges and remove tar.gz + zones dir afterwards
-  $ ipcountry -c am -i -r
-
-  # list all available country codes
-  $ ipcountry -l
+  # reverse lookup: which country owns an ip ('-' reads ips from stdin)
+  $ ipcountry -x 8.8.8.8
 ```
 
 # Author

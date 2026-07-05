@@ -47,6 +47,8 @@ target options
   -h <hosts|file>   - single host/url or host-/cidr-range or file containing
                       hosts or file containing URLs, e.g.: foobar.net,
                       192.168.0.1-192.168.0.254, 192.168.0.0/24, /tmp/hosts.txt
+                      a comma-separated list of hosts also works, e.g.:
+                      1.2.3.4,foo.net,10.0.0.0/24
                       NOTE: hosts can also contain ':<ports>' on cmdline or in
                       file, where <ports> is a single port, comma-list or
                       range, e.g.: foo.net:8080, foo.net:80,443, 10.0.0.1:1-1024
@@ -122,10 +124,10 @@ scan options
                       ranges, at the cost of ram and start-up buffering
   -W                - save/resume: on ctrl+c write progress to httpgrep.session;
                       rerun with -W to resume from it (else start fresh)
-  -T <0|1>          - pull (v)hosts from the TLS cert (CN + SAN) and scan them.
-                      0 = in-scope only (via host header on the scanned IP);
-                      1 = also scan each vhost by name (dns-resolved, MAY LEAVE
-                      the scanned scope). needs TLS (-t or a *443 port).
+  -T <0|1>          - also probe the cert (v)hosts (CN + SAN) as extra requests
+                      on top of the direct scan. 0 = via Host header on the
+                      same ip (in-scope); 1 = ALSO by dns name/SNI (may leave
+                      scope). needs TLS (https url, -t, or a *443 port).
 
 output options
 
@@ -197,6 +199,16 @@ The terminal always shows this human-readable form. With `-l <base>` the same
 matches are mirrored to `<base>.<fmt>` for each `-O` format - `txt` (these
 lines), `csv` (`url,vhost,status,type,match` rows with a header), `jsonl` (one
 JSON object per match).
+
+On a multi-target scan a live status line is shown (pinned to the bottom on a
+tty, plain lines when redirected):
+
+```
+[+] wait bitch, scanning: <targets> | <scanned>/<total> | <pct>% | <n> hits
+```
+
+`<total>` is the target count (cidrs/ranges computed, not expanded); `<n> hits`
+is the running number of match lines emitted so far.
 
 # Author
 

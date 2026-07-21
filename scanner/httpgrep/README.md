@@ -21,7 +21,8 @@ be resumed.
 - [httpx](https://pypi.org/project/httpx/) - `pip install -r requirements.txt`
   (or `pip install httpx`)
 - optional, auto-used if present: `uvloop` (faster event loop), `aiodns`
-  (non-blocking dns for `-r`), `httpx[socks]` / socksio (SOCKS proxies)
+  (non-blocking dns for `-r`), `h2` (HTTP/2 for `-2`), `httpx[socks]` / socksio
+  (SOCKS proxies)
 
 httpgrep is a single self-contained script - just run `./httpgrep.py`.
 
@@ -63,7 +64,8 @@ target options
                       line) to search given strings in, e.g.: /foobar/,
                       /foo.html, /admin,/login, /tmp/paths.txt (default: /)
   -r                - show the reverse-dns (PTR) name of scanned IPv4s as a
-                      label; the ip stays the scan target (no scope drift)
+                      label; the ip stays the scan target (no scope drift).
+                      non-blocking with the aiodns package
 
 http options
 
@@ -88,13 +90,14 @@ http options
 
 search options
 
-  -s <str|file>     - a single string/regex or multile strings/regex in a file
-                      to find in given URIs and HTTP response headers,
+  -s <str|file>     - a single string/regex or multiple strings/regex in a file
+                      to find in HTTP response bodies and headers (see -w),
                       e.g.: 'tomcat 8', '/tmp/igot0daysforthese.txt'
   -S <str|file>     - invert (grep -v): drop ALL matches of a response if this
                       string/regex (or file) appears anywhere in its body or
                       headers, e.g. to filter out dynamic error / 404 pages
-  -w <where>        - search strings in given places (default: headers,body)
+  -w <where>        - where to search: headers, body, or headers,body
+                      (default: headers,body)
   -b <bytes>        - num bytes of context to show from a body match
                       (default: 64)
   -m <size>         - max body to read + search; suffix b/kb/mb, no suffix = kb,

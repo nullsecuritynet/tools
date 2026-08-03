@@ -41,7 +41,7 @@ $ httpgrep -H
 
 usage
 
-  httpgrep -h <args> -s <arg> [opts] | <misc>
+  httpgrep -h <arg> -s <arg> [opts] | <misc>
 
 target options
 
